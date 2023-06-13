@@ -33,12 +33,33 @@ export const renderMap = function (position) {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(AppView.map);
 
+  // console.log('hi');
+  // console.log(AppView.map);
+
   //Shows workout form.
   AppView.map.addEventListener('click', showForm);
 };
 
+//Rendering Workout marker.
+export const renderWorkoutMarker = function (workout) {
+  L.marker(workout.coords)
+    .addTo(AppView.map)
+    .bindPopup(
+      L.popup({
+        maxWidth: POPUP_MAX_WIDTH,
+        maxHeight: POPUP_MAX_HEIGHT,
+        autoClose: false,
+        closeOnClick: false,
+        className: `${workout.type}-popup`,
+      })
+    )
+    .setPopupContent(`${workout.setDescription}`)
+    .openPopup();
+};
+
 //Showing up of form when clicked on the map.
 const showForm = function (e) {
+  // console.log(e);
   AppView.mapEvent = e;
   form.classList.remove('hidden');
   inputDistance.focus();
@@ -65,6 +86,7 @@ const toggleElevationField = function (e) {
 export const fetchFormData = function () {
   const formData = {
     type: inputType.value,
+    coords: AppView.mapEvent.latlng,
     distance: inputDistance.value,
     duration: inputDuration.value,
     cadence: inputCadence.value,
@@ -74,26 +96,19 @@ export const fetchFormData = function () {
   return formData;
 };
 
+//Clear form data.
+export const hideForm = function () {
+  form.classList.add('hidden');
+  inputDistance.value =
+    inputDuration.value =
+    inputCadence.value =
+    inputElevation.value =
+      '';
+};
+
 //Render Error
 export const renderError = function (msg) {
   alert(msg);
-};
-
-//Rendering Workout marker.
-export const renderWorkoutMarker = function (workout) {
-  L.marker(workout.coords)
-    .addTo(AppView.map)
-    .bindPopup(
-      L.popup({
-        maxWidth: POPUP_MAX_WIDTH,
-        maxHeight: POPUP_MAX_HEIGHT,
-        autoClose: false,
-        closeOnClick: false,
-        className: `${workout.type}-popup`,
-      })
-    )
-    .setPopupContent(`${workout.setDescription}`)
-    .openPopup();
 };
 
 //Render Workouts

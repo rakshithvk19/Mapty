@@ -1,7 +1,7 @@
 import Workout from './workout.js';
 import * as model from './model.js';
 
-class Running extends Workout {
+export class Running extends Workout {
   type = 'running';
 
   constructor(coords, distance, duration, cadence) {
@@ -34,14 +34,16 @@ class Running extends Workout {
 
 export const running = new Running();
 
+//Return the new workout instance and push the instance to workout array.
 export const updateRunningWorkout = function (data) {
   if (data.type !== 'running') return;
 
+  const { lat, lng } = data.coords;
   const distance = Number(data.distance);
   const duration = Number(data.distance);
   const cadence = Number(data.cadence);
 
-  const workout = new Running('', distance, duration, cadence);
+  const workout = new Running([lat, lng], distance, duration, cadence);
   model.workoutInstanceArr.push(workout);
-  console.log(model.workoutInstanceArr);
+  return workout;
 };

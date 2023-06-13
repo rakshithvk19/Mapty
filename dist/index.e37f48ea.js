@@ -577,15 +577,10 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var _view = require("./view");
 var _cyclingJs = require("./model/cycling.js");
 var _runningJs = require("./model/running.js");
-//Gets the user's current position from navigator API and render Map.
-const loadMap = function() {
-    if (navigator.geolocation) navigator.geolocation.getCurrentPosition(_view.renderMap);
-};
-//Fetch Data that are stored in local storage.
-const getLocalStorage = function() {
-    const workoutData = JSON.parse(localStorage.getItem("workouts"));
-    if (!workoutData) return;
-//For each workout, render workout.
+var _modelJs = require("./model/model.js");
+//Set Local Storage.
+const setLocalStorage = function(workout) {
+    localStorage.setItem("workouts", JSON.stringify(workout));
 };
 //Publisher for New workouts.
 const controlNewWorkout = function(e) {
@@ -593,28 +588,48 @@ const controlNewWorkout = function(e) {
     const data = _view.fetchFormData();
     let msg = _cyclingJs.cycling.validateNewCyclingWorkout(data);
     msg += _runningJs.running.validateNewRunningWorkout(data);
-    if (msg) _view.renderError(msg);
-    else {
-        _cyclingJs.updateCyclingWorkout(data);
-        _runningJs.updateRunningWorkout(data);
+    if (msg) {
+        _view.renderError(msg);
+        return;
     }
+    let workout = _cyclingJs.updateCyclingWorkout(data);
+    if (!workout) workout = _runningJs.updateRunningWorkout(data);
+    _view.renderWorkoutMarker(workout);
+    _view.renderWorkout(workout);
+    _view.hideForm();
+    setLocalStorage((0, _modelJs.workoutInstanceArr));
+};
+//Render Local Storage.
+const renderLocalStorage = function() {
+    const workoutData = JSON.parse(localStorage.getItem("workouts"));
+    if (!workoutData) return;
+    workoutData.forEach((eachWorkout)=>{
+        _view.renderWorkoutMarker(eachWorkout);
+        _view.renderWorkout(eachWorkout);
+    });
+};
+//Gets the user's current position from navigator API and render Map.
+const loadMap = function() {
+    if (navigator.geolocation) navigator.geolocation.getCurrentPosition(_view.renderMap);
 };
 const init = function() {
     loadMap();
+    renderLocalStorage();
     _view.addHandlerNewWorkout(controlNewWorkout);
     _view.addHandlerToggleWorkout();
 };
 init();
 
-},{"./view":"ky8MP","./model/cycling.js":"5Qubx","./model/running.js":"fIDOW"}],"ky8MP":[function(require,module,exports) {
+},{"./view":"ky8MP","./model/cycling.js":"5Qubx","./model/running.js":"fIDOW","./model/model.js":"gsv5J"}],"ky8MP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderMap", ()=>renderMap);
+parcelHelpers.export(exports, "renderWorkoutMarker", ()=>renderWorkoutMarker);
 parcelHelpers.export(exports, "addHandlerNewWorkout", ()=>addHandlerNewWorkout);
 parcelHelpers.export(exports, "addHandlerToggleWorkout", ()=>addHandlerToggleWorkout);
 parcelHelpers.export(exports, "fetchFormData", ()=>fetchFormData);
+parcelHelpers.export(exports, "hideForm", ()=>hideForm);
 parcelHelpers.export(exports, "renderError", ()=>renderError);
-parcelHelpers.export(exports, "renderWorkoutMarker", ()=>renderWorkoutMarker);
 parcelHelpers.export(exports, "renderWorkout", ()=>renderWorkout);
 var _configJs = require("./config.js");
 const form = document.querySelector(".form");
@@ -642,11 +657,23 @@ const renderMap = function(position) {
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(AppView.map);
+    // console.log('hi');
+    // console.log(AppView.map);
     //Shows workout form.
     AppView.map.addEventListener("click", showForm);
 };
+const renderWorkoutMarker = function(workout) {
+    L.marker(workout.coords).addTo(AppView.map).bindPopup(L.popup({
+        maxWidth: (0, _configJs.POPUP_MAX_WIDTH),
+        maxHeight: (0, _configJs.POPUP_MAX_HEIGHT),
+        autoClose: false,
+        closeOnClick: false,
+        className: `${workout.type}-popup`
+    })).setPopupContent(`${workout.setDescription}`).openPopup();
+};
 //Showing up of form when clicked on the map.
 const showForm = function(e) {
+    // console.log(e);
     AppView.mapEvent = e;
     form.classList.remove("hidden");
     inputDistance.focus();
@@ -666,6 +693,7 @@ const toggleElevationField = function(e) {
 const fetchFormData = function() {
     const formData = {
         type: inputType.value,
+        coords: AppView.mapEvent.latlng,
         distance: inputDistance.value,
         duration: inputDuration.value,
         cadence: inputCadence.value,
@@ -673,17 +701,12 @@ const fetchFormData = function() {
     };
     return formData;
 };
+const hideForm = function() {
+    form.classList.add("hidden");
+    inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = "";
+};
 const renderError = function(msg) {
     alert(msg);
-};
-const renderWorkoutMarker = function(workout) {
-    L.marker(workout.coords).addTo(AppView.map).bindPopup(L.popup({
-        maxWidth: (0, _configJs.POPUP_MAX_WIDTH),
-        maxHeight: (0, _configJs.POPUP_MAX_HEIGHT),
-        autoClose: false,
-        closeOnClick: false,
-        className: `${workout.type}-popup`
-    })).setPopupContent(`${workout.setDescription}`).openPopup();
 };
 const renderWorkout = function(workout) {
     let copyHTML = `
@@ -758,6 +781,7 @@ exports.export = function(dest, destName, get) {
 },{}],"5Qubx":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Cycling", ()=>Cycling);
 parcelHelpers.export(exports, "cycling", ()=>cycling);
 parcelHelpers.export(exports, "updateCyclingWorkout", ()=>updateCyclingWorkout);
 var _workoutJs = require("./workout.js");
@@ -765,8 +789,6 @@ var _workoutJsDefault = parcelHelpers.interopDefault(_workoutJs);
 var _modelJs = require("./model.js");
 class Cycling extends (0, _workoutJsDefault.default) {
     type = "cycling";
-    msg = "";
-    workout = [];
     constructor(coords, distance, duration, elevationGain){
         super(coords, distance, duration);
         this.elevationGain = elevationGain;
@@ -791,12 +813,16 @@ class Cycling extends (0, _workoutJsDefault.default) {
 const cycling = new Cycling();
 const updateCyclingWorkout = function(data) {
     if (data.type !== "cycling") return;
+    const { lat , lng  } = data.coords;
     const distance = Number(data.distance);
     const duration = Number(data.distance);
     const elevation = Number(data.elevation);
-    const workout = new Cycling("", distance, duration, elevation);
+    const workout = new Cycling([
+        lat,
+        lng
+    ], distance, duration, elevation);
     _modelJs.workoutInstanceArr.push(workout);
-    console.log(_modelJs.workoutInstanceArr);
+    return workout;
 };
 
 },{"./workout.js":"6WzxI","./model.js":"gsv5J","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6WzxI":[function(require,module,exports) {
@@ -855,6 +881,7 @@ let workoutInstanceArr = [];
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fIDOW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Running", ()=>Running);
 parcelHelpers.export(exports, "running", ()=>running);
 parcelHelpers.export(exports, "updateRunningWorkout", ()=>updateRunningWorkout);
 var _workoutJs = require("./workout.js");
@@ -886,12 +913,16 @@ class Running extends (0, _workoutJsDefault.default) {
 const running = new Running();
 const updateRunningWorkout = function(data) {
     if (data.type !== "running") return;
+    const { lat , lng  } = data.coords;
     const distance = Number(data.distance);
     const duration = Number(data.distance);
     const cadence = Number(data.cadence);
-    const workout = new Running("", distance, duration, cadence);
+    const workout = new Running([
+        lat,
+        lng
+    ], distance, duration, cadence);
     _modelJs.workoutInstanceArr.push(workout);
-    console.log(_modelJs.workoutInstanceArr);
+    return workout;
 };
 
 },{"./workout.js":"6WzxI","./model.js":"gsv5J","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aD7Zm","aenu9"], "aenu9", "parcelRequire8112")
