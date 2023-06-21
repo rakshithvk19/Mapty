@@ -44,6 +44,6 @@ export const updateRunningWorkout = function (data) {
   const cadence = Number(data.cadence);
 
   const workout = new Running([lat, lng], distance, duration, cadence);
-  model.workoutInstanceArr.push(workout);
+  model.workoutArr.push(workout);
   return workout;
 };

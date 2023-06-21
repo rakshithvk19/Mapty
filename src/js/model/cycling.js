@@ -42,6 +42,6 @@ export const updateCyclingWorkout = function (data) {
   const elevation = Number(data.elevation);
 
   const workout = new Cycling([lat, lng], distance, duration, elevation);
-  model.workoutInstanceArr.push(workout);
+  model.workoutArr.push(workout);
   return workout;
 };
