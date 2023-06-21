@@ -4,7 +4,7 @@
 156C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\js-yaml\lib\type\seq.js133305423265430796 0
 132C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\package.json133305470506246553 0
 157C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\svgo\lib\svgo\plugins.js133305423266973676 0
-124C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist133318358652747074 1
+124C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist133318361646771640 1
 185C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\@swc\helpers\_\_assert_this_initialized\package.json133305423286564297 0
 137C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\csso133305423276870120 1
 164C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\caniuse-lite\data\regions\FM.js133305423288317299 0
@@ -142,7 +142,7 @@
 198C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\csso\node_modules\css-tree\lib\syntax\node\PseudoClassSelector.js133305423284170700 0
 169C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\@parcel\config-default\test\.babelrc133305423253179987 0
 173C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\@parcel\reporter-cli\src\bundleReport.js133305423254609254 0
-140C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\src\js\controller.js133318357457726274 0
+140C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\src\js\controller.js133318361246868308 0
 164C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\caniuse-lite\data\regions\PG.js133305423295448236 0
 176C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\type-fest\source\union-to-intersection.d.ts133305423268055249 0
 134C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\src\js\view.js133318350640532446 0
@@ -6058,7 +6058,7 @@
 143C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist\index.3a01df49.css133318349953719415 0
 142C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist\index.561fface.js133305620041649488 0
 146C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist\index.561fface.js.map133305620041679401 0
-142C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist\index.e37f48ea.js133318358652697199 0
-146C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist\index.e37f48ea.js.map133318358652737099 0
+142C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist\index.e37f48ea.js133318361646691852 0
+146C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist\index.e37f48ea.js.map133318361646761670 0
 135C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist\index.html133318349953948671 0
 142C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\dist\logo.b82d6c7c.png133305620041619759 0

@@ -621,6 +621,7 @@ const fetchWorkout = function(workoutId) {
         return eachWorkout.id === workoutId;
     });
     _modelJs.incrementClick(workout);
+    setLocalStorage(_modelJs.workoutArr);
     return workout;
 };
 const init = function() {

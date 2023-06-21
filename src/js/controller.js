@@ -54,6 +54,7 @@ export const fetchWorkout = function (workoutId) {
     return eachWorkout.id === workoutId;
   });
   model.incrementClick(workout);
+  setLocalStorage(model.workoutArr);
   return workout;
 };
 
