@@ -577,6 +577,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderLocalStorage", ()=>renderLocalStorage);
+parcelHelpers.export(exports, "fetchWorkout", ()=>fetchWorkout);
 var _view = require("./view");
 var _cyclingJs = require("./model/cycling.js");
 var _runningJs = require("./model/running.js");
@@ -600,13 +601,13 @@ const controlNewWorkout = function(e) {
     _view.renderWorkoutMarker(workout);
     _view.renderWorkout(workout);
     _view.hideForm();
-    setLocalStorage((0, _modelJs.workoutInstanceArr));
+    setLocalStorage(_modelJs.workoutArr);
 };
 const renderLocalStorage = function() {
     const workoutData = JSON.parse(localStorage.getItem("workouts"));
     if (!workoutData) return;
     workoutData.forEach((eachWorkout)=>{
-        (0, _modelJs.workoutInstanceArr).push(eachWorkout);
+        _modelJs.workoutArr.push(eachWorkout);
         _view.renderWorkoutMarker(eachWorkout);
         _view.renderWorkout(eachWorkout);
     });
@@ -615,9 +616,15 @@ const renderLocalStorage = function() {
 const loadMap = function() {
     if (navigator.geolocation) navigator.geolocation.getCurrentPosition(_view.renderMap);
 };
+const fetchWorkout = function(workoutId) {
+    const workout = _modelJs.workoutArr.find(function(eachWorkout) {
+        return eachWorkout.id === workoutId;
+    });
+    _modelJs.incrementClick(workout);
+    return workout;
+};
 const init = function() {
     loadMap();
-    // renderLocalStorage();
     _view.addHandlerNewWorkout(controlNewWorkout);
     _view.addHandlerToggleWorkout();
 };
@@ -663,6 +670,8 @@ const renderMap = function(position) {
     }).addTo(AppView.map);
     //Render workouts stored in Local Storage.
     _controllerJs.renderLocalStorage();
+    //Moves to workout marker when clicked on selected workout.
+    containerWorkouts.addEventListener("click", moveToPopup);
     //Shows workout form.
     AppView.map.addEventListener("click", showForm);
 };
@@ -737,6 +746,19 @@ const renderWorkout = function(workout) {
     </div>
   </li>`;
     form.insertAdjacentHTML("afterend", copyHTML);
+};
+//Pan the screen to the workout marker.
+const moveToPopup = function(e) {
+    const workoutEl = e.target.closest(".workout");
+    if (!workoutEl) return;
+    //Fetch workout data from module based on workout element click.
+    const workout = _controllerJs.fetchWorkout(workoutEl.dataset.id);
+    AppView.map.setView(workout.coords, AppView.mapZoomLevel, {
+        animate: true,
+        pan: {
+            duration: (0, _configJs.PAN_DURATION_SEC)
+        }
+    });
 };
 
 },{"./config.js":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./controller.js":"aenu9"}],"k5Hzs":[function(require,module,exports) {
@@ -878,8 +900,15 @@ exports.default = Workout;
 //Storing workout instances.
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "workoutInstanceArr", ()=>workoutInstanceArr);
-let workoutInstanceArr = [];
+parcelHelpers.export(exports, "workoutArr", ()=>workoutArr);
+parcelHelpers.export(exports, "incrementClick", ()=>incrementClick);
+let workoutArr = [];
+const incrementClick = function(clickedWorkout) {
+    const updateWorkout = workoutArr.find(function(eachWorkout) {
+        if (eachWorkout.id === clickedWorkout.id) return eachWorkout;
+    });
+    updateWorkout.clicks++;
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fIDOW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

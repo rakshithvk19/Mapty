@@ -1,7 +1,7 @@
 import * as view from './view';
 import * as cyclingModel from './model/cycling.js';
 import * as runningModel from './model/running.js';
-import { workoutInstanceArr as workoutArr } from './model/model.js';
+import * as model from './model/model.js';
 
 //Set Local Storage.
 const setLocalStorage = function (workout) {
@@ -26,7 +26,7 @@ const controlNewWorkout = function (e) {
   view.renderWorkoutMarker(workout);
   view.renderWorkout(workout);
   view.hideForm();
-  setLocalStorage(workoutArr);
+  setLocalStorage(model.workoutArr);
 };
 
 //Render Local Storage.
@@ -35,7 +35,7 @@ export const renderLocalStorage = function () {
   if (!workoutData) return;
 
   workoutData.forEach(eachWorkout => {
-    workoutArr.push(eachWorkout);
+    model.workoutArr.push(eachWorkout);
     view.renderWorkoutMarker(eachWorkout);
     view.renderWorkout(eachWorkout);
   });
@@ -48,9 +48,17 @@ const loadMap = function () {
   }
 };
 
+//Fetch workoutArr based on the workoutEl click
+export const fetchWorkout = function (workoutId) {
+  const workout = model.workoutArr.find(function (eachWorkout) {
+    return eachWorkout.id === workoutId;
+  });
+  model.incrementClick(workout);
+  return workout;
+};
+
 const init = function () {
   loadMap();
-  // renderLocalStorage();
   view.addHandlerNewWorkout(controlNewWorkout);
   view.addHandlerToggleWorkout();
 };

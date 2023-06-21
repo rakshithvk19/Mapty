@@ -38,6 +38,9 @@ export const renderMap = function (position) {
   //Render workouts stored in Local Storage.
   controller.renderLocalStorage();
 
+  //Moves to workout marker when clicked on selected workout.
+  containerWorkouts.addEventListener('click', moveToPopup);
+
   //Shows workout form.
   AppView.map.addEventListener('click', showForm);
 };
@@ -147,4 +150,17 @@ export const renderWorkout = function (workout) {
     </div>
   </li>`;
   form.insertAdjacentHTML('afterend', copyHTML);
+};
+
+//Pan the screen to the workout marker.
+const moveToPopup = function (e) {
+  const workoutEl = e.target.closest('.workout');
+  if (!workoutEl) return;
+
+  //Fetch workout data from module based on workout element click.
+  const workout = controller.fetchWorkout(workoutEl.dataset.id);
+  AppView.map.setView(workout.coords, AppView.mapZoomLevel, {
+    animate: true,
+    pan: { duration: PAN_DURATION_SEC },
+  });
 };
