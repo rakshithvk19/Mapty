@@ -5,6 +5,8 @@ import {
   PAN_DURATION_SEC,
 } from './config.js';
 
+import * as controller from './controller.js';
+
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
@@ -33,8 +35,8 @@ export const renderMap = function (position) {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(AppView.map);
 
-  // console.log('hi');
-  // console.log(AppView.map);
+  //Render workouts stored in Local Storage.
+  controller.renderLocalStorage();
 
   //Shows workout form.
   AppView.map.addEventListener('click', showForm);
@@ -59,7 +61,6 @@ export const renderWorkoutMarker = function (workout) {
 
 //Showing up of form when clicked on the map.
 const showForm = function (e) {
-  // console.log(e);
   AppView.mapEvent = e;
   form.classList.remove('hidden');
   inputDistance.focus();

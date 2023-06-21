@@ -574,6 +574,9 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"aenu9":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "renderLocalStorage", ()=>renderLocalStorage);
 var _view = require("./view");
 var _cyclingJs = require("./model/cycling.js");
 var _runningJs = require("./model/running.js");
@@ -599,11 +602,11 @@ const controlNewWorkout = function(e) {
     _view.hideForm();
     setLocalStorage((0, _modelJs.workoutInstanceArr));
 };
-//Render Local Storage.
 const renderLocalStorage = function() {
     const workoutData = JSON.parse(localStorage.getItem("workouts"));
     if (!workoutData) return;
     workoutData.forEach((eachWorkout)=>{
+        (0, _modelJs.workoutInstanceArr).push(eachWorkout);
         _view.renderWorkoutMarker(eachWorkout);
         _view.renderWorkout(eachWorkout);
     });
@@ -614,13 +617,13 @@ const loadMap = function() {
 };
 const init = function() {
     loadMap();
-    renderLocalStorage();
+    // renderLocalStorage();
     _view.addHandlerNewWorkout(controlNewWorkout);
     _view.addHandlerToggleWorkout();
 };
 init();
 
-},{"./view":"ky8MP","./model/cycling.js":"5Qubx","./model/running.js":"fIDOW","./model/model.js":"gsv5J"}],"ky8MP":[function(require,module,exports) {
+},{"./view":"ky8MP","./model/cycling.js":"5Qubx","./model/running.js":"fIDOW","./model/model.js":"gsv5J","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ky8MP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderMap", ()=>renderMap);
@@ -632,6 +635,7 @@ parcelHelpers.export(exports, "hideForm", ()=>hideForm);
 parcelHelpers.export(exports, "renderError", ()=>renderError);
 parcelHelpers.export(exports, "renderWorkout", ()=>renderWorkout);
 var _configJs = require("./config.js");
+var _controllerJs = require("./controller.js");
 const form = document.querySelector(".form");
 const containerWorkouts = document.querySelector(".workouts");
 const inputType = document.querySelector(".form__input--type");
@@ -657,8 +661,8 @@ const renderMap = function(position) {
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(AppView.map);
-    // console.log('hi');
-    // console.log(AppView.map);
+    //Render workouts stored in Local Storage.
+    _controllerJs.renderLocalStorage();
     //Shows workout form.
     AppView.map.addEventListener("click", showForm);
 };
@@ -673,7 +677,6 @@ const renderWorkoutMarker = function(workout) {
 };
 //Showing up of form when clicked on the map.
 const showForm = function(e) {
-    // console.log(e);
     AppView.mapEvent = e;
     form.classList.remove("hidden");
     inputDistance.focus();
@@ -736,7 +739,7 @@ const renderWorkout = function(workout) {
     form.insertAdjacentHTML("afterend", copyHTML);
 };
 
-},{"./config.js":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
+},{"./config.js":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./controller.js":"aenu9"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MAX_ZOOM", ()=>MAX_ZOOM);

@@ -30,11 +30,12 @@ const controlNewWorkout = function (e) {
 };
 
 //Render Local Storage.
-const renderLocalStorage = function () {
+export const renderLocalStorage = function () {
   const workoutData = JSON.parse(localStorage.getItem('workouts'));
   if (!workoutData) return;
 
   workoutData.forEach(eachWorkout => {
+    workoutArr.push(eachWorkout);
     view.renderWorkoutMarker(eachWorkout);
     view.renderWorkout(eachWorkout);
   });
@@ -49,7 +50,7 @@ const loadMap = function () {
 
 const init = function () {
   loadMap();
-  renderLocalStorage();
+  // renderLocalStorage();
   view.addHandlerNewWorkout(controlNewWorkout);
   view.addHandlerToggleWorkout();
 };
