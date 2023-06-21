@@ -51,7 +51,7 @@
 164C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\caniuse-lite\data\regions\GB.js133305423289184988 0
 200C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\csso\node_modules\css-tree\cjs\syntax\node\index-parse-selector.cjs133305423270811779 0
 173C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\lmdb\node_modules\msgpackr\node-index.js133305423261841806 0
-130C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\index.html133305638009066591 0
+130C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\index.html133318365817371727 0
 154C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\css-tree\cjs\data.cjs133305423266369569 0
 153C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\lightningcss\LICENSE133305423253020413 0
 211C:\Users\raksh\Desktop\javascript\complete-javascript-course-master\complete-javascript-course-master\My Projects\Mapty\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\definition-syntax\generate.js133305423270684137 0
